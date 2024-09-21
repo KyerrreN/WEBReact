@@ -1,0 +1,20 @@
+.header-frame {
+    max-width: 1440px;
+    height: 90px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+
+    background: #fff;
+    box-shadow: 11px 11px 25px 0px rgba(9, 7, 37, 0.06);
+}
+.header-logo {
+    width: 120px;
+    height: 120px;
+}
+.header-nav {
+    display: flex;
+    gap: 60px;
+}

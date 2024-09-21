@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import "../Wrapper/Wrapper.css";
 
-class Wrapper extends Component {
-    render() {
-        return <div className="wrapper"></div>;
-    }
+import Header from "../Header/Header";
+
+function Wrapper() {
+    return (
+        <div className="wrapper">
+            <Header />
+        </div>
+    );
 }
 
 export default Wrapper;
