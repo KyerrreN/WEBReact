@@ -12,6 +12,7 @@ export default function Footer() {
                     <span>Legal information</span>
 
                     <a>Terms of use</a>
+                    <span>Copyright (c) 2024</span>
                 </div>
 
                 <div className="footer-nav">

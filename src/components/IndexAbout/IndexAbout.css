@@ -24,6 +24,7 @@
 @media (max-width: 1024px) {
     .indexabout-frame {
         position: relative;
+        padding: 0;
     }
     .indexabout-pic {
         width: 100%;
