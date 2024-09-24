@@ -15,7 +15,10 @@
     height: 150px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+    header {
+        display: none;
+    }
     .navigation {
         display: none !important;
     }

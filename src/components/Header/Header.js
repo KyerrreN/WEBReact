@@ -13,7 +13,7 @@ function Header() {
                     className="header-logo"
                 />
 
-                <Navigation />
+                <Navigation navClass="navigation" />
             </div>
         </header>
     );
