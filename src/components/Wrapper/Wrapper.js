@@ -1,21 +1,18 @@
 import React, { Component } from "react";
 import "../Wrapper/Wrapper.css";
+import { Route, Routes } from "react-router-dom";
 
 // Import components
-import Header from "../Header/Header";
-import Footer from "../Footer/Footer";
-import IndexAbout from "../IndexAbout/IndexAbout";
-import IndexWhyUs from "../IndexWhyUs/IndexWhyUs";
-import BurgerMenu from "../BurgerMenu/BurgerMenu";
+import Main from "../../pages/Main.js";
+import News from "../../pages/News.js";
 
 function Wrapper() {
     return (
         <div className="wrapper">
-            <BurgerMenu />
-            <Header />
-            <IndexAbout />
-            <IndexWhyUs />
-            <Footer />
+            <Routes>
+                <Route path="/" element={<Main />} />
+                <Route path="/news" element={<News />} />
+            </Routes>
         </div>
     );
 }
