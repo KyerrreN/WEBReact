@@ -1,6 +1,8 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState, useRef } from "react";
 import NewsData from "../../json/News.json";
+import Popup from "reactjs-popup";
 import "./NewsFrame.css";
+import "reactjs-popup/dist/index.css";
 
 export default function NewsFrame() {
     const [index, setIndex] = useState(0);
@@ -25,17 +27,53 @@ export default function NewsFrame() {
             setCurrentNews(NewsData[index + 1]);
         }
     };
+
+    const renderDescription = (description) => {
+        return description.split("\n").map((item, index) => (
+            <React.Fragment key={index}>
+                {item}
+                <br />
+                <br />
+            </React.Fragment>
+        ));
+    };
+
     return (
         <div className="newsframe-frame">
-            <h1>INDEX = {index}</h1>
             <h1>{currentNews.header}</h1>
+            <img src={currentNews.pictureLink} />
             <div>{currentNews.shortDesc}</div>
 
             <nav className="newsframe-navigation">
                 <button onClick={handlePrevious}>&lt;</button>
-                <button>More</button>
+                <Popup
+                    trigger={<button>More</button>}
+                    modal
+                    nested
+                    lockScroll={true}
+                >
+                    {(close) => (
+                        <div className="modal">
+                            <h1 className="content">{currentNews.header}</h1>
+                            <span>
+                                {renderDescription(currentNews.longDesc)}
+                            </span>
+                            <div>
+                                <button
+                                    className="button-modal"
+                                    onClick={() => close()}
+                                >
+                                    X
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </Popup>
                 <button onClick={handleNext}>&gt;</button>
             </nav>
+            <span className="newsframe-counter">
+                Reading {index + 1} out of {NewsData.length}
+            </span>
         </div>
     );
 }
