@@ -1,0 +1,20 @@
+[
+    {
+        "id": 0,
+        "header": "First News",
+        "shortDesc": "Lorem ipsum dolor sit amet",
+        "longDesc": "This is my rifle. There are many like it, but this one is mine. Without me, my rifle is useless. Without my rifle - I am useless."
+    },
+    {
+        "id": 1,
+        "header": "Second News",
+        "shortDesc": "Lorem ipsum dolor sit amet",
+        "longDesc": "This is my rifle. There are many like it, but this one is mine. Without me, my rifle is useless. Without my rifle - I am useless."
+    },
+    {
+        "id": 2,
+        "header": "Third News",
+        "shortDesc": "Lorem ipsum dolor sit amet",
+        "longDesc": "This is my rifle. There are many like it, but this one is mine. Without me, my rifle is useless. Without my rifle - I am useless."
+    }
+]
