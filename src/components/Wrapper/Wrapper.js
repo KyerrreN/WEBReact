@@ -5,12 +5,14 @@ import "../Wrapper/Wrapper.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import IndexAbout from "../IndexAbout/IndexAbout";
+import IndexWhyUs from "../IndexWhyUs/IndexWhyUs";
 
 function Wrapper() {
     return (
         <div className="wrapper">
             <Header />
             <IndexAbout />
+            <IndexWhyUs />
             <Footer />
         </div>
     );
