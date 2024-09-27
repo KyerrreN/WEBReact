@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import NewsData from "../../json/News.json";
 import Popup from "reactjs-popup";
 import "./NewsFrame.css";
@@ -40,8 +40,12 @@ export default function NewsFrame() {
 
     return (
         <div className="newsframe-frame">
-            <h1>{currentNews.header}</h1>
             <img src={currentNews.pictureLink} />
+
+            <div>
+                <h1>{currentNews.header}</h1>
+            </div>
+
             <div>{currentNews.shortDesc}</div>
 
             <nav className="newsframe-navigation">

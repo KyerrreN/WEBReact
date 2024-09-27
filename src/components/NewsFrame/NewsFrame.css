@@ -3,24 +3,62 @@
     padding: 20px;
     outline: 4px solid black;
 
+    position: relative;
+
     margin-bottom: 20px;
 
     border-radius: 10px;
 
     background-color: white;
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 20px; */
 }
 .newsframe-frame > h1 {
     margin: 0;
     text-align: center;
 }
+.newsframe-frame > div:nth-child(2) {
+    position: absolute;
+    width: 96.7%;
+
+    bottom: 70%;
+
+    color: black;
+    background-color: rgb(251, 251, 251);
+
+    display: flex;
+    justify-content: center;
+}
+.newsframe-frame > div:nth-child(3) {
+    position: absolute;
+    bottom: 50%;
+
+    background-color: rgba(255, 255, 255, 0.63);
+    font-size: 20px;
+    width: 96.7%;
+
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+.newsframe-frame > img {
+    width: 100%;
+    height: 600px;
+
+    position: relative;
+}
 .newsframe-navigation {
     display: flex;
-    width: 100%;
+    width: 96.7%;
     justify-content: space-between;
+
+    position: absolute;
+    bottom: 10%;
+
+    background-color: rgba(0, 0, 0, 0.422);
+    padding: 20px 0;
 }
 .newsframe-navigation > button {
     font-size: 16px;
@@ -117,12 +155,6 @@
 .newsframe-counter {
     font-size: 12px;
 }
-.newsframe-frame > img {
-    width: 800px;
-    height: 400px;
-
-    border-radius: 10px;
-}
 .modal > span {
     font-size: 24px;
 }
@@ -130,22 +162,54 @@
     text-align: center;
 }
 @media (max-width: 1439px) {
-    .newsframe-frame > img {
-        width: 700px;
+    .newsframe-frame > div:nth-child(2) {
+        width: 95.3%;
+    }
+    .newsframe-frame > div:nth-child(3) {
+        width: 95.3%;
+    }
+    .newsframe-navigation {
+        width: 95.3%;
     }
 }
 @media (max-width: 1039px) {
-    .newsframe-frame > img {
-        width: 500px;
-        height: 200px;
+    .newsframe-frame > div:nth-child(2) {
+        width: 93.9%;
+    }
+    .newsframe-frame > div:nth-child(3) {
+        width: 93.9%;
+    }
+    .newsframe-navigation {
+        width: 93.9%;
     }
 }
 @media (max-width: 767px) {
-    .newsframe-frame > img {
-        width: 280px;
-    }
     .popup-content {
         width: 80% !important;
+    }
+    .newsframe-frame > div:nth-child(2) {
+        width: 89.5%;
+    }
+    .newsframe-frame > div:nth-child(3) {
+        width: 89.5%;
+    }
+    .newsframe-navigation {
+        width: 89.5%;
+    }
+}
+@media (max-width: 424px) {
+    .newsframe-frame {
+        width: 320px;
+        padding: 20px 0;
+    }
+    .newsframe-frame > div:nth-child(2) {
+        width: 100%;
+    }
+    .newsframe-frame > div:nth-child(3) {
+        width: 100%;
+    }
+    .newsframe-navigation {
+        width: 100%;
     }
 }
 @media (max-width: 334px) {
