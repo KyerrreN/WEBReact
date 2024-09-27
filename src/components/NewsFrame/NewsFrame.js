@@ -8,6 +8,7 @@ export default function NewsFrame() {
     const [index, setIndex] = useState(0);
     const [currentNews, setCurrentNews] = useState(NewsData[0]);
 
+    // Navigation for buttons
     const handlePrevious = () => {
         if (index == 0) {
             setIndex(NewsData.length - 1);
@@ -28,6 +29,28 @@ export default function NewsFrame() {
         }
     };
 
+    // Keyboard events
+    useEffect(() => {
+        document.addEventListener("keydown", handlePreviousPress);
+        document.addEventListener("keydown", handleNextPress);
+
+        return () => {
+            document.removeEventListener("keydown", handlePreviousPress);
+            document.removeEventListener("keydown", handleNextPress);
+        };
+    }, [index]);
+
+    const handlePreviousPress = (event) => {
+        if (event.key === "ArrowLeft" || event.key === "a") {
+            handlePrevious();
+        }
+    };
+
+    const handleNextPress = (event) => {
+        if (event.key === "ArrowRight" || event.key === "d") {
+            handleNext();
+        }
+    };
     const renderDescription = (description) => {
         return description.split("\n").map((item, index) => (
             <React.Fragment key={index}>
