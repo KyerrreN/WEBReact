@@ -3,6 +3,7 @@ import NewsData from "../../json/News.json";
 import Popup from "reactjs-popup";
 import "./NewsFrame.css";
 import "reactjs-popup/dist/index.css";
+import { Button } from "@mui/material";
 
 export default function NewsFrame() {
     const [index, setIndex] = useState(0);
@@ -20,7 +21,7 @@ export default function NewsFrame() {
     };
 
     const handleNext = () => {
-        if (index == NewsData.length - 1) {
+        if (index === NewsData.length - 1) {
             setIndex(0);
             setCurrentNews(NewsData[0]);
         } else {
@@ -63,7 +64,7 @@ export default function NewsFrame() {
 
     return (
         <div className="newsframe-frame">
-            <img src={currentNews.pictureLink} />
+            <img src={currentNews.pictureLink} alt="News Picture" />
 
             <div>
                 <h1>{currentNews.header}</h1>
@@ -72,9 +73,16 @@ export default function NewsFrame() {
             <div>{currentNews.shortDesc}</div>
 
             <nav className="newsframe-navigation">
-                <button onClick={handlePrevious}>&lt;</button>
+                <Button
+                    variant="contained"
+                    onClick={handlePrevious}
+                    color="success"
+                >
+                    &lt;
+                </Button>
+
                 <Popup
-                    trigger={<button>More</button>}
+                    trigger={<Button variant="contained">More</Button>}
                     modal
                     nested
                     lockScroll={true}
@@ -86,17 +94,24 @@ export default function NewsFrame() {
                                 {renderDescription(currentNews.longDesc)}
                             </span>
                             <div>
-                                <button
-                                    className="button-modal"
+                                <Button
                                     onClick={() => close()}
+                                    variant="outlined"
+                                    color="error"
                                 >
                                     X
-                                </button>
+                                </Button>
                             </div>
                         </div>
                     )}
                 </Popup>
-                <button onClick={handleNext}>&gt;</button>
+                <Button
+                    variant="contained"
+                    onClick={handleNext}
+                    color="success"
+                >
+                    &gt;
+                </Button>
             </nav>
             <span className="newsframe-counter">
                 Reading {index + 1} out of {NewsData.length}
