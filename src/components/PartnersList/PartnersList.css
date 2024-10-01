@@ -1,0 +1,14 @@
+.partnerslist-frame {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 20px;
+}
+@media (max-width: 424px) {
+    .partnerslist-frame {
+        padding: 20px 0;
+    }
+}
