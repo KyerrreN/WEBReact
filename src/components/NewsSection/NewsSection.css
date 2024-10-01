@@ -1,0 +1,10 @@
+.news-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: rgba(220, 241, 255, 0.171);
+}
+.news-frame > h1 {
+    text-align: center;
+}

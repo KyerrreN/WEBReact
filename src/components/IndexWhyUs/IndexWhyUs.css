@@ -1,0 +1,12 @@
+.indexwhyus-frame {
+    width: 100%;
+    border-top: 4px solid black;
+    border-bottom: 4px solid black;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.indexwhyus-frame > h1 {
+    font-size: 44px;
+}

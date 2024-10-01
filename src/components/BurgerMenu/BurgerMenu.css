@@ -1,0 +1,82 @@
+.burgermenu {
+    display: none;
+    height: 50px;
+}
+.burgermenu-icon {
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 50px;
+
+    margin: 5px;
+}
+.burgermenu-bar {
+    width: 50px;
+    height: 4px;
+    background-color: rgb(0, 183, 255);
+    border-radius: 0.5em;
+    z-index: 2;
+}
+.burgermenu-bar.clicked:nth-child(1) {
+    transform: translate(0px, 15px) rotate(45deg);
+    transition: ease-out 0.5s;
+}
+.burgermenu-bar.clicked:nth-child(2) {
+    transform: scale(0.3);
+    transition: ease-out 0.3s;
+}
+.burgermenu-bar.clicked:nth-child(3) {
+    transform: translate(0px, -21px) rotate(-45deg);
+    transition: ease-out 0.5s;
+}
+.burgermenu-bar.unclicked {
+    transform: rotate(0) translate(0);
+    transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s;
+}
+.burgermenu-items {
+    width: 60%;
+    height: 100vh;
+    background-color: aqua;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 25px;
+
+    font-size: 32px;
+}
+.burgermenu-items.hidden {
+    display: none;
+}
+.burgermenu-items.visible > nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 25px;
+
+    gap: 10px;
+}
+.burgermenu-items.visible > nav > a:hover,
+.burgermenu-items.visible > nav > a:focus {
+    color: rgb(116, 116, 116);
+    transform: color 0.3s ease-in-out;
+}
+.burgermenu > nav {
+    display: flex;
+}
+@media (max-width: 767px) {
+    .container.burgermenu {
+        display: block;
+    }
+}
+@media (max-width: 424px) {
+    .container.burgermenu {
+        width: 100%;
+    }
+}
