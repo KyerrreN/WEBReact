@@ -5,9 +5,9 @@
 ### Used Components
 
 1. **Button**
-2. **SvgIcon** (Icons that inherit this component)
-3. **Typography** (For headers of components)
-4. **Rating** (For relevance in news sections)
+2. **SvgIcon**
+3. **Typography**
+4. **Rating**
 5. **Card**
 6. **CardContent**
 7. **CardHeader**
@@ -19,3 +19,7 @@
 13. **ListItemIcon**
 14. **ListItemText**
 15. **Tooltip**
+16. **Dialog**
+17. **DialogContent**
+18. **DialogTitle**
+19. **DialogContentText**

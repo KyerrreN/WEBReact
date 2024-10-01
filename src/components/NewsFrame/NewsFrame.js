@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NewsData from "../../json/News.json";
-import Popup from "reactjs-popup";
 import "./NewsFrame.css";
-import "reactjs-popup/dist/index.css";
+import NewsFrameModal from "../NewsFrameModal/NewsFrameModal";
 
 // MUI
 import { Button, Rating, Typography } from "@mui/material";
@@ -85,30 +84,8 @@ export default function NewsFrame() {
                     <ArrowBackIos />
                 </Button>
 
-                <Popup
-                    trigger={<Button variant="contained">More</Button>}
-                    modal
-                    nested
-                    lockScroll={true}
-                >
-                    {(close) => (
-                        <div className="modal">
-                            <h1 className="content">{currentNews.header}</h1>
-                            <span>
-                                {renderDescription(currentNews.longDesc)}
-                            </span>
-                            <div>
-                                <Button
-                                    onClick={() => close()}
-                                    variant="outlined"
-                                    color="error"
-                                >
-                                    X
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-                </Popup>
+                <NewsFrameModal news={currentNews} />
+
                 <Button
                     variant="contained"
                     onClick={handleNext}
