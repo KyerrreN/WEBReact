@@ -1,5 +1,6 @@
 import { React } from "react";
 import "./PartnersList.css";
+import PartnersData from "../../json/Partners.json";
 
 // MUI
 import { Box } from "@mui/material";
@@ -13,10 +14,9 @@ export default function PartnersList() {
                 <h1>Check out our best partners</h1>
 
                 <Box>
-                    <PartnerIndividual />
-                    <PartnerIndividual />
-                    <PartnerIndividual />
-                    <PartnerIndividual />
+                    {PartnersData.map((partner) => (
+                        <PartnerIndividual partner={partner} />
+                    ))}
                 </Box>
             </div>
         </section>

@@ -1,7 +1,6 @@
 import { React, useState } from "react";
 
 //img
-import Google from "../../img/partners/google.svg";
 import Partner from "../../img/partners/partner.svg";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -48,7 +47,7 @@ const ExpandMore = styled((props) => {
     ],
 }));
 
-export default function PartnerIndividual() {
+export default function PartnerIndividual({ partner }) {
     const [expanded, setExpanded] = useState(false);
 
     const handleExpandClick = () => {
@@ -62,18 +61,17 @@ export default function PartnerIndividual() {
                 avatar={<Avatar src={Partner} alt="Partner" />}
                 sx={{ width: 200 }}
             />
-            <CardMedia image={Google} sx={{ height: 160 }} />
+            <CardMedia image={partner.pictureSrc} sx={{ height: 160 }} />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    Google
+                    {partner.companyName}
                 </Typography>
 
                 <Typography
                     variant="body2"
                     sx={{ color: "text.secondary", width: 200 }}
                 >
-                    They have inspired us to become better at what our platform
-                    provides
+                    {partner.companyDesc}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
@@ -92,24 +90,14 @@ export default function PartnerIndividual() {
                     <Typography color="success">Our projects:</Typography>
 
                     <List>
-                        <ListItem disablePadding sx={{ width: 200 }}>
-                            <ListItemIcon>
-                                <EastIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Website Redesign and Development" />
-                        </ListItem>
-                        <ListItem disablePadding sx={{ width: 200 }}>
-                            <ListItemIcon>
-                                <EastIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Digital Marketing Campaign" />
-                        </ListItem>
-                        <ListItem disablePadding sx={{ width: 200 }}>
-                            <ListItemIcon>
-                                <EastIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Website Redesign and Development" />
-                        </ListItem>
+                        {partner.projects.map((project) => (
+                            <ListItem disablePadding sx={{ width: 200 }}>
+                                <ListItemIcon>
+                                    <EastIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={project} />
+                            </ListItem>
+                        ))}
                     </List>
                 </CardContent>
             </Collapse>
