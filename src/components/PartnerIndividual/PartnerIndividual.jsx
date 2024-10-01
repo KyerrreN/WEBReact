@@ -8,7 +8,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 // MUI
 import {
     Avatar,
-    Box,
     Card,
     CardActions,
     CardContent,
