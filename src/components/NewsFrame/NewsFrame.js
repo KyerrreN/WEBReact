@@ -5,7 +5,7 @@ import "./NewsFrame.css";
 import "reactjs-popup/dist/index.css";
 
 // MUI
-import { Button } from "@mui/material";
+import { Button, Rating, Typography } from "@mui/material";
 import ArrowBackIos from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIos from "@mui/icons-material/ArrowForwardIos";
 
@@ -118,7 +118,18 @@ export default function NewsFrame() {
                 </Button>
             </nav>
             <span className="newsframe-counter">
-                Reading {index + 1} out of {NewsData.length}
+                <span>
+                    Reading {index + 1} out of {NewsData.length}
+                </span>
+                <span>
+                    <Typography>Relevance</Typography>
+                    <Rating
+                        name="read-only"
+                        value={currentNews.rating}
+                        readOnly
+                        precision={0.5}
+                    />
+                </span>
             </span>
         </div>
     );

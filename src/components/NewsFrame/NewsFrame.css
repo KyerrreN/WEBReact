@@ -10,10 +10,6 @@
     border-radius: 10px;
 
     background-color: white;
-    /* display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px; */
 }
 .newsframe-frame > h1 {
     margin: 0;
@@ -55,7 +51,7 @@
     justify-content: space-between;
 
     position: absolute;
-    bottom: 10%;
+    bottom: 15%;
 
     background-color: rgba(0, 0, 0, 0.422);
     padding: 20px 0;
@@ -73,6 +69,13 @@
 }
 .newsframe-counter {
     font-size: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.newsframe-frame > div > h1 {
+    text-align: center;
 }
 .modal > span {
     font-size: 24px;
@@ -114,6 +117,9 @@
     }
     .newsframe-navigation {
         width: 89.5%;
+    }
+    .newsframe-frame > img {
+        height: 400px;
     }
 }
 @media (max-width: 424px) {
