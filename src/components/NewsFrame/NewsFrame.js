@@ -55,15 +55,6 @@ export default function NewsFrame() {
             handleNext();
         }
     };
-    const renderDescription = (description) => {
-        return description.split("\n").map((item, index) => (
-            <React.Fragment key={index}>
-                {item}
-                <br />
-                <br />
-            </React.Fragment>
-        ));
-    };
 
     return (
         <div className="newsframe-frame">
