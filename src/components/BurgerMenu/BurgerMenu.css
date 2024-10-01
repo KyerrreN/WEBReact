@@ -25,8 +25,7 @@
     transition: ease-out 0.5s;
 }
 .burgermenu-bar.clicked:nth-child(2) {
-    transform: scale(0.3);
-    transition: ease-out 0.3s;
+    display: none;
 }
 .burgermenu-bar.clicked:nth-child(3) {
     transform: translate(0px, -21px) rotate(-45deg);
@@ -39,7 +38,7 @@
 .burgermenu-items {
     width: 60%;
     height: 100vh;
-    background-color: aqua;
+    background-color: #301934;
     position: absolute;
     top: 0;
     z-index: 1;
@@ -61,6 +60,9 @@
     padding-left: 25px;
 
     gap: 10px;
+}
+.burgermenu-items.visible > nav > a {
+    color: white;
 }
 .burgermenu-items.visible > nav > a:hover,
 .burgermenu-items.visible > nav > a:focus {
