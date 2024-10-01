@@ -2,7 +2,7 @@ import React from "react";
 import "./PartnersMain.css";
 
 // img
-import PartnershipValueImage from "../../img/whyus/payment.svg";
+import PartnershipValueImage from "../../img/partners/partnership.svg";
 
 export default function PartnersMain() {
     return (
@@ -34,9 +34,8 @@ export default function PartnersMain() {
                 </div>
 
                 <div className="partnersmain-second">
-                    {/* PLACEHOLDER. CHANGE LATER */}
                     <div>
-                        <img src={PartnershipValueImage} alt="Image" />
+                        <img src={PartnershipValueImage} alt="Partnership" />
                     </div>
                 </div>
             </div>
