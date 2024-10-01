@@ -3,7 +3,11 @@ import NewsData from "../../json/News.json";
 import Popup from "reactjs-popup";
 import "./NewsFrame.css";
 import "reactjs-popup/dist/index.css";
+
+// MUI
 import { Button } from "@mui/material";
+import ArrowBackIos from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIos from "@mui/icons-material/ArrowForwardIos";
 
 export default function NewsFrame() {
     const [index, setIndex] = useState(0);
@@ -78,7 +82,7 @@ export default function NewsFrame() {
                     onClick={handlePrevious}
                     color="success"
                 >
-                    &lt;
+                    <ArrowBackIos />
                 </Button>
 
                 <Popup
@@ -110,7 +114,7 @@ export default function NewsFrame() {
                     onClick={handleNext}
                     color="success"
                 >
-                    &gt;
+                    <ArrowForwardIos />
                 </Button>
             </nav>
             <span className="newsframe-counter">

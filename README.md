@@ -3,3 +3,4 @@ LR3
 #Used components
 
 1. Button
+2. SvgIcon (Icons, that inherit this component)
