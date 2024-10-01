@@ -10,33 +10,35 @@
         ]
     },
     {
-        "pictureSrc": "../partner/google.svg",
-        "companyName": "Google",
-        "companyDesc": "They have inspired us to become better at what our platform provides",
+        "pictureSrc": "../partner/amazon.svg",
+        "companyName": "Amazon",
+        "companyDesc": "Theirs delivery has much improved since we started working together",
         "projects": [
-            "Website Redesign and Development",
-            "Digital Marketing Campaign",
-            "Website Redesign and Development"
+            "Amazon Go Expansion",
+            "Prime Video Original Series Development",
+            "AWS Cloud Optimization Initiative",
+            "Sustainable Packaging Solutions"
         ]
     },
     {
-        "pictureSrc": "../partner/google.svg",
-        "companyName": "Google",
-        "companyDesc": "They have inspired us to become better at what our platform provides",
+        "pictureSrc": "../partner/apple.svg",
+        "companyName": "Apple",
+        "companyDesc": "We have together improved our pricing policy to reflect our superiority",
         "projects": [
-            "Website Redesign and Development",
-            "Digital Marketing Campaign",
-            "Website Redesign and Development"
+            "Dynamic Pricing Strategy for Apple Services",
+            "Augmented Reality Experience Development",
+            "Apple Health Integration"
         ]
     },
     {
-        "pictureSrc": "../partner/google.svg",
-        "companyName": "Google",
-        "companyDesc": "They have inspired us to become better at what our platform provides",
+        "pictureSrc": "../partner/microsoft.svg",
+        "companyName": "Microsoft",
+        "companyDesc": "We helped installing more bloatware to slow down your systems even more",
         "projects": [
-            "Website Redesign and Development",
-            "Digital Marketing Campaign",
-            "Website Redesign and Development"
+            "Microsoft Teams User Experience Overhaul",
+            "Cloud Security Enhancement Initiative",
+            "AI-Powered Productivity Tools Development",
+            "Sustainable Data Center Expansion"
         ]
     }
 ]

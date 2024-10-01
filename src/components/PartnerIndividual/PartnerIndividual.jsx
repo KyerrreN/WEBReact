@@ -61,7 +61,12 @@ export default function PartnerIndividual({ partner }) {
                 avatar={<Avatar src={Partner} alt="Partner" />}
                 sx={{ width: 200 }}
             />
-            <CardMedia image={partner.pictureSrc} sx={{ height: 160 }} />
+            <CardMedia
+                component="img"
+                height={140}
+                image={partner.pictureSrc}
+                sx={{ height: 140, objectFit: "contain" }}
+            />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                     {partner.companyName}
@@ -90,8 +95,12 @@ export default function PartnerIndividual({ partner }) {
                     <Typography color="success">Our projects:</Typography>
 
                     <List>
-                        {partner.projects.map((project) => (
-                            <ListItem disablePadding sx={{ width: 200 }}>
+                        {partner.projects.map((project, index) => (
+                            <ListItem
+                                disablePadding
+                                sx={{ width: 200 }}
+                                key={index}
+                            >
                                 <ListItemIcon>
                                     <EastIcon />
                                 </ListItemIcon>

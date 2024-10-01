@@ -14,8 +14,8 @@ export default function PartnersList() {
                 <h1>Check out our best partners</h1>
 
                 <Box>
-                    {PartnersData.map((partner) => (
-                        <PartnerIndividual partner={partner} />
+                    {PartnersData.map((partner, index) => (
+                        <PartnerIndividual partner={partner} key={index} />
                     ))}
                 </Box>
             </div>
