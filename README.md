@@ -23,3 +23,5 @@
 17. **DialogContent**
 18. **DialogTitle**
 19. **DialogContentText**
+
+# Also, installed AOS for zoom animations
