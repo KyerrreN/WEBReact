@@ -1,42 +1,43 @@
 @font-face {
-    font-family: "Poppins";
-    src: url(../../fonts/Poppins.ttf);
+  font-family: "Poppins";
+  src: url(../../fonts/Poppins.ttf);
 }
 /* ---------------------------------------------------------------------------- */
 /*                      Нужные стили для адаптива */
 /* ---------------------------------------------------------------------------- */
 body {
-    margin: 0px;
+  margin: 0px;
+  font-family: "Poppins";
 }
 .wrapper {
-    display: flex;
-    min-height: 100%;
-    overflow: hidden;
-    flex-direction: column;
+  display: flex;
+  min-height: 100%;
+  overflow: hidden;
+  flex-direction: column;
 }
 .container {
-    max-width: 1440px;
-    width: 100%;
+  max-width: 1440px;
+  width: 100%;
 
-    margin: 0px auto;
+  margin: 0px auto;
 }
 @media (max-width: 1439px) {
-    .container {
-        width: 1024px;
-    }
+  .container {
+    width: 1024px;
+  }
 }
 @media (max-width: 1039px) {
-    .container {
-        width: 768px;
-    }
+  .container {
+    width: 768px;
+  }
 }
 @media (max-width: 767px) {
-    .container {
-        width: 425px;
-    }
+  .container {
+    width: 425px;
+  }
 }
 @media (max-width: 424px) {
-    .container {
-        width: auto;
-    }
+  .container {
+    width: auto;
+  }
 }
