@@ -2,15 +2,15 @@ const fs = require("fs");
 const path = require("path");
 const index = require("regexp.prototype.flags");
 
-// Create freelancers path and
-// make a directory in the folder
-// where the script is located
-const freelancersDirPath = path.join(__dirname, "freelancers");
-fs.mkdirSync(freelancersDirPath, { recursive: true });
-
 // A function to create a
 // freelancer entry
 function createFreelancersEntry(id, name, surname, spec, rating) {
+    // Create freelancers path and
+    // make a directory in the folder
+    // where the script is located
+    const freelancersDirPath = path.join(__dirname, "freelancers");
+    fs.mkdirSync(freelancersDirPath, { recursive: true });
+
     // path to f-index
     const freelancersIndexPath = path.join(freelancersDirPath, "f-index.json");
 
@@ -62,3 +62,5 @@ if (id && name && surname && spec && rating) {
         'Error: arguments have to be in this format\n"id" "name" "surname" "spec" "rating"'
     );
 }
+
+module.exports = { createFreelancersEntry };
