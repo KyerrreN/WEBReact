@@ -1,0 +1,51 @@
+[
+  {
+    "ID": 4,
+    "NAME": "VADIM",
+    "SURNAME": "PODLIPNY",
+    "SPEC": "WEB DEVELOPER",
+    "RATING": 4.5
+  },
+  {
+    "ID": 5,
+    "NAME": "VADIM",
+    "SURNAME": "PODLIPNY",
+    "SPEC": "WEB DEVELOPER",
+    "RATING": 4.6
+  },
+  {
+    "ID": 1,
+    "NAME": "1",
+    "SURNAME": "1",
+    "SPEC": "1",
+    "RATING": 1
+  },
+  {
+    "ID": 2,
+    "NAME": "1",
+    "SURNAME": "1",
+    "SPEC": "1",
+    "RATING": 1
+  },
+  {
+    "ID": 3,
+    "NAME": "1",
+    "SURNAME": "1",
+    "SPEC": "1",
+    "RATING": 1
+  },
+  {
+    "ID": 8,
+    "NAME": "1",
+    "SURNAME": "1",
+    "SPEC": "1",
+    "RATING": 1
+  },
+  {
+    "ID": 9,
+    "NAME": "1",
+    "SURNAME": "1",
+    "SPEC": "1",
+    "RATING": 1
+  }
+]
