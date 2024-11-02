@@ -30,8 +30,6 @@ function rename(oldPath, newPath) {
     );
 }
 
-// rename("./freelancers/f-1.txt", "./freelancers/f-1.json");
-
 const [oldPathName, newPathName] = process.argv.slice(2);
 
 if (oldPathName && newPathName) {

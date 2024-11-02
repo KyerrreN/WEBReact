@@ -1,37 +1,30 @@
 [
-  {
-    "id": 1,
-    "name": "Vadim",
-    "surname": "Podlipny",
-    "spec": "Web Developer",
-    "rating": 4.2
-  },
-  {
-    "id": 2,
-    "name": "Vadim",
-    "surname": "Podlipny",
-    "spec": "Web Developer",
-    "rating": 4.3
-  },
-  {
-    "id": 3,
-    "name": "Vadim",
-    "surname": "Podlipny",
-    "spec": "Web Developer",
-    "rating": 4.4
-  },
-  {
-    "id": 4,
-    "name": "Vadim",
-    "surname": "Podlipny",
-    "spec": "Web Developer",
-    "rating": 4.5
-  },
-  {
-    "id": 5,
-    "name": "Vadim",
-    "surname": "Podlipny",
-    "spec": "Web Developer",
-    "rating": 4.6
-  }
+    {
+        "id": 1,
+        "name": "Vadim",
+        "surname": "Podlipny",
+        "spec": "Web Developer",
+        "rating": 4.2
+    },
+    {
+        "id": 2,
+        "name": "Vadim",
+        "surname": "Podlipny",
+        "spec": "Web Developer",
+        "rating": 4.3
+    },
+    {
+        "id": 3,
+        "name": "Vadim",
+        "surname": "Podlipny",
+        "spec": "Web Developer",
+        "rating": 4.4
+    },
+    {
+        "id": 4,
+        "name": "Vadim",
+        "surname": "Podlipny",
+        "spec": "Web Developer",
+        "rating": 4.5
+    }
 ]
