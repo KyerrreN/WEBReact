@@ -72,11 +72,6 @@ export default function App() {
     }
 
     function hireFreelancer(id) {
-        const dataToSend = {
-            id: id,
-        };
-        console.log(dataToSend);
-
         fetch(`http://localhost:3001/api/freelancers/${id}`, {
             method: "POST",
         })
@@ -94,6 +89,25 @@ export default function App() {
             .catch((e) => console.error("Error message: ", e));
     }
 
+    function fireFreelancer(id) {
+        const idToFire = parseInt(id);
+
+        fetch(`http://localhost:3001/api/hired/${id}`, {
+            method: "DELETE",
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Error while firing a freelancer");
+                }
+            })
+            .then((data) => {
+                const newArray = hired.filter((hire) => hire.id !== idToFire);
+                setHired(newArray);
+            })
+            .catch((e) => {
+                console.error("Error while processing a DELETE request: ", e);
+            });
+    }
     return (
         <div className="wrapper">
             <div className="container">
@@ -132,7 +146,9 @@ export default function App() {
                     hired.map((hire) => {
                         return (
                             <div key={hire.id} className="fetched-freel">
-                                <button>Fire!</button>
+                                <button onClick={() => fireFreelancer(hire.id)}>
+                                    Fire!
+                                </button>
                                 <span style={{ paddingBottom: 20 }}>
                                     Freelancer with id: {hire.id}
                                 </span>

@@ -1,8 +1,8 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const app = express();
 const cors = require("cors");
+const app = express();
 
 function getFreelancers() {
     const pathToFile = path.join(__dirname, "data", "f.json");
@@ -85,6 +85,49 @@ app.post("/api/freelancers/:id", (req, res) => {
         );
 
         res.status(201).json(jsonData);
+    } catch (e) {
+        res.status(500).json("Error submitting data:" + e);
+    }
+});
+
+// delete
+app.delete("/api/hired/:id", (req, res) => {
+    console.log(req.params.id);
+
+    try {
+        let hiredFreel = getHiredFreelancers();
+
+        const urlId = req.params.id;
+        const data = parseInt(urlId);
+        console.log(data);
+
+        if (!hiredFreel.some((hire) => hire.id === data)) {
+            console.log("DIDNT FIND");
+            return res.status(400).json(
+                JSON.stringify({
+                    Error: `No hired freelancers exist with id: ${data}`,
+                })
+            );
+        }
+
+        const indexToRemove = hiredFreel.findIndex((hire) => hire.id === data);
+        console.log(indexToRemove);
+        console.log(hiredFreel);
+
+        if (indexToRemove < 0) {
+            return res
+                .status(500)
+                .json(JSON.stringify({ Error: `Couldn't find id ${data}` }));
+        }
+
+        hiredFreel.splice(indexToRemove, 1);
+
+        fs.writeFileSync(
+            path.join(__dirname, "data", "h.json"),
+            JSON.stringify(hiredFreel, null, 2)
+        );
+
+        res.status(204).send();
     } catch (e) {
         res.status(500).json("Error submitting data:" + e);
     }
