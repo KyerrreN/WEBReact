@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 export default function App() {
     const [freelancers, setFreelancers] = useState([]);
+    const [hired, setHired] = useState([]);
+
     const [newFreelancer, setNewFreelancer] = useState({
         id: 0,
         name: "",
@@ -19,9 +21,19 @@ export default function App() {
                 setFreelancers(data);
             })
             .catch((error) =>
-                console.log("There was a problem fetching: " + error)
+                console.log(
+                    "There was a problem fetching FREELANCERS: " + error
+                )
+            );
+
+        fetch("http://localhost:3001/api/hired")
+            .then((response) => response.json())
+            .then((data) => setHired(data))
+            .catch((error) =>
+                console.log("There was a problem fetching HIRED: ", error)
             );
     }, []);
+
     function handleInputChange(e) {
         const { name, value } = e.target;
 
@@ -58,17 +70,47 @@ export default function App() {
                 console.error("Error POST request: " + error);
             });
     }
+
+    function hireFreelancer(id) {
+        const dataToSend = {
+            id: id,
+        };
+        console.log(dataToSend);
+
+        fetch(`http://localhost:3001/api/freelancers/${id}`, {
+            method: "POST",
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Error while hiring a freelancer");
+                }
+
+                return response.json();
+            })
+            .then((data) => {
+                const newHired = { id: data.id };
+                setHired([...hired, newHired]);
+            })
+            .catch((e) => console.error("Error message: ", e));
+    }
+
     return (
         <div className="wrapper">
             <div className="container">
+                <h1>Freelancers</h1>
                 {typeof freelancers === "undefined" ? (
                     <p>Loading</p>
                 ) : freelancers.length === 0 ? (
                     <p>There are no freelancers in the DB</p>
                 ) : (
-                    freelancers.map((freel, i) => {
+                    freelancers.map((freel) => {
                         return (
                             <div key={freel.id} className="fetched-freel">
+                                <button
+                                    onClick={() => hireFreelancer(freel.id)}
+                                >
+                                    Hire!
+                                </button>
                                 <span>Freelancer {freel.id}</span>
                                 <span>
                                     Name: {freel.name} {freel.surname}
@@ -76,6 +118,23 @@ export default function App() {
                                 <span>Specialty: {freel.spec}</span>
                                 <span style={{ paddingBottom: 20 }}>
                                     Rating: {freel.rating}
+                                </span>
+                            </div>
+                        );
+                    })
+                )}
+                <h1>Hired freelancers</h1>
+                {typeof hired === "undefined" ? (
+                    <p>Loading hired freelancers...</p>
+                ) : hired.length === 0 ? (
+                    <p>You haven't hired anyone yet.</p>
+                ) : (
+                    hired.map((hire) => {
+                        return (
+                            <div key={hire.id} className="fetched-freel">
+                                <button>Fire!</button>
+                                <span style={{ paddingBottom: 20 }}>
+                                    Freelancer with id: {hire.id}
                                 </span>
                             </div>
                         );

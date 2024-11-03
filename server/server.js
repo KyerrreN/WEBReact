@@ -10,6 +10,12 @@ function getFreelancers() {
     return JSON.parse(data);
 }
 
+function getHiredFreelancers() {
+    const pathToFile = path.join(__dirname, "data", "h.json");
+    const data = fs.readFileSync(pathToFile);
+    return JSON.parse(data);
+}
+
 // usestaticfiles
 const publicPath = path.join(__dirname, "..", "client", "public");
 app.use(express.static(publicPath));
@@ -21,6 +27,10 @@ app.use(
 );
 
 //get requests
+app.get("/api/hired", (req, res) => {
+    const data = getHiredFreelancers();
+    res.status(200).json(data);
+});
 app.get("/api/freelancers", (req, res) => {
     const data = getFreelancers();
     res.status(200).json(data);
@@ -32,9 +42,7 @@ app.get("/", (req, res) => {
 // post requests
 app.post("/api/freelancers", (req, res) => {
     try {
-        console.log(req.body);
         let freelancers = getFreelancers();
-        console.log("Read freelancers");
 
         const data = req.body;
         data.id = Math.floor(Math.random() * 1000000);
@@ -47,6 +55,36 @@ app.post("/api/freelancers", (req, res) => {
         );
 
         res.status(201).json(data);
+    } catch (e) {
+        res.status(500).json("Error submitting data:" + e);
+    }
+});
+app.post("/api/freelancers/:id", (req, res) => {
+    try {
+        let hiredFreel = getHiredFreelancers();
+
+        const incParam = req.params.id;
+        const data = parseInt(incParam);
+
+        console.log(data);
+
+        if (hiredFreel.some((hire) => hire.id === data)) {
+            console.log("executed some condition");
+            return res.status(400).json("Error: duplicate hired freelancer");
+        }
+
+        const jsonData = {
+            id: data,
+        };
+        console.log(jsonData);
+        hiredFreel.push(jsonData);
+
+        fs.writeFileSync(
+            path.join(__dirname, "data", "h.json"),
+            JSON.stringify(hiredFreel, null, 2)
+        );
+
+        res.status(201).json(jsonData);
     } catch (e) {
         res.status(500).json("Error submitting data:" + e);
     }
