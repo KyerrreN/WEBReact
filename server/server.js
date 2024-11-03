@@ -46,7 +46,6 @@ app.post("/api/freelancers", (req, res) => {
 
         const data = req.body;
         data.id = Math.floor(Math.random() * 1000000);
-        console.log(data);
         freelancers.push(data);
 
         fs.writeFileSync(
@@ -66,8 +65,6 @@ app.post("/api/freelancers/:id", (req, res) => {
         const incParam = req.params.id;
         const data = parseInt(incParam);
 
-        console.log(data);
-
         if (hiredFreel.some((hire) => hire.id === data)) {
             console.log("executed some condition");
             return res.status(400).json("Error: duplicate hired freelancer");
@@ -76,7 +73,6 @@ app.post("/api/freelancers/:id", (req, res) => {
         const jsonData = {
             id: data,
         };
-        console.log(jsonData);
         hiredFreel.push(jsonData);
 
         fs.writeFileSync(
@@ -99,7 +95,6 @@ app.delete("/api/hired/:id", (req, res) => {
 
         const urlId = req.params.id;
         const data = parseInt(urlId);
-        console.log(data);
 
         if (!hiredFreel.some((hire) => hire.id === data)) {
             console.log("DIDNT FIND");
@@ -111,8 +106,6 @@ app.delete("/api/hired/:id", (req, res) => {
         }
 
         const indexToRemove = hiredFreel.findIndex((hire) => hire.id === data);
-        console.log(indexToRemove);
-        console.log(hiredFreel);
 
         if (indexToRemove < 0) {
             return res
