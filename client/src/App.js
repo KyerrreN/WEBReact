@@ -108,6 +108,36 @@ export default function App() {
                 console.error("Error while processing a DELETE request: ", e);
             });
     }
+
+    function downloadInFormat(format) {
+        fetch("http://localhost:3001/api/format", {
+            method: "GET",
+            headers: {
+                Accept: format,
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Error while processing a request");
+                }
+
+                return response.blob();
+            })
+            .then((data) => {
+                const url = window.URL.createObjectURL(data);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `hired_freelancers.${format.split("/")[1]}`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
     return (
         <div className="wrapper">
             <div className="container">
@@ -143,18 +173,43 @@ export default function App() {
                 ) : hired.length === 0 ? (
                     <p>You haven't hired anyone yet.</p>
                 ) : (
-                    hired.map((hire) => {
-                        return (
-                            <div key={hire.id} className="fetched-freel">
-                                <button onClick={() => fireFreelancer(hire.id)}>
-                                    Fire!
-                                </button>
-                                <span style={{ paddingBottom: 20 }}>
-                                    Freelancer with id: {hire.id}
-                                </span>
-                            </div>
-                        );
-                    })
+                    <>
+                        {hired.map((hire) => {
+                            return (
+                                <div key={hire.id} className="fetched-freel">
+                                    <button
+                                        onClick={() => fireFreelancer(hire.id)}
+                                    >
+                                        Fire!
+                                    </button>
+                                    <span style={{ paddingBottom: 20 }}>
+                                        Freelancer with id: {hire.id}
+                                    </span>
+                                </div>
+                            );
+                        })}
+                        <div className="download-buttons">
+                            <button
+                                onClick={() =>
+                                    downloadInFormat("application/json")
+                                }
+                            >
+                                Download in JSON
+                            </button>
+                            <button
+                                onClick={() =>
+                                    downloadInFormat("application/xml")
+                                }
+                            >
+                                Download in XML
+                            </button>
+                            <button
+                                onClick={() => downloadInFormat("text/html")}
+                            >
+                                Download in HTML
+                            </button>
+                        </div>
+                    </>
                 )}
 
                 <h1>Add new freelancer</h1>

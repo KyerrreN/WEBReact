@@ -38,6 +38,37 @@ app.get("/api/freelancers", (req, res) => {
 app.get("/", (req, res) => {
     res.sendFile(path.join(publicPath, "index.html"));
 });
+app.get("/api/format", (req, res) => {
+    const hiredFreelancers = getHiredFreelancers();
+    const acceptHeader = req.headers.accept;
+
+    if (acceptHeader.includes("application/json")) {
+        res.setHeader("Content-Type", "application/json");
+        res.status(200).json(hiredFreelancers);
+    } else if (acceptHeader.includes("application/xml")) {
+        let xmlFormat = '<?xml version="1.0" encoding="UTF-8"?><data>';
+        hiredFreelancers.forEach((hire) => {
+            xmlFormat += `<item><id>${hire.id}</id></item>`;
+        });
+        xmlFormat += "</data>";
+        res.setHeader("Content-Type", "application/xml");
+        res.status(200).send(xmlFormat);
+    } else if (acceptHeader.includes("text/html")) {
+        let htmlFormat =
+            '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Hired Freelancers</title></head><body>';
+        htmlFormat += "<h1>Hired freelancers</h1><ul>";
+        hiredFreelancers.forEach((hire) => {
+            htmlFormat += `<li>ID: ${hire.id}</li>`;
+        });
+        htmlFormat += "</ul></body></html>";
+        res.setHeader("Content-Type", "text/html");
+        res.send(htmlFormat);
+    } else {
+        res.status(406).json({
+            error: 'Not acceptable MIME type. Use "application/json", "application/xml", or "text/html".',
+        });
+    }
+});
 
 // post requests
 app.post("/api/freelancers", (req, res) => {
