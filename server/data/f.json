@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "name": "Anthony",
+        "surname": "Parker",
+        "spec": "Web Developer",
+        "rating": 4.2
+    },
+    {
+        "id": 2,
+        "name": "Mike",
+        "surname": "Baker",
+        "spec": "Backend Software Engineer",
+        "rating": 4.3
+    },
+    {
+        "id": 3,
+        "name": "Liam",
+        "surname": "Smith",
+        "spec": "UI Designer",
+        "rating": 4.4
+    },
+    {
+        "id": 4,
+        "name": "Peter",
+        "surname": "Pan",
+        "spec": "Web Developer",
+        "rating": 4.5
+    }
+]
