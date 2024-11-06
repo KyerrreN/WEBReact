@@ -46,13 +46,17 @@ app.get("/api/format", (req, res) => {
         res.setHeader("Content-Type", "application/json");
         res.status(200).json(hiredFreelancers);
     } else if (acceptHeader.includes("application/xml")) {
-        let xmlFormat = '<?xml version="1.0" encoding="UTF-8"?><data>';
-        hiredFreelancers.forEach((hire) => {
-            xmlFormat += `<item><id>${hire.id}</id></item>`;
-        });
-        xmlFormat += "</data>";
+        const convert = require("xml-js");
+
+        const objectToJson = { HiredFreelancer: { Data: hiredFreelancers } };
+        let jsonToConvert = JSON.stringify(objectToJson, null, 2);
+
+        const options = { compact: true, spaces: 4, ignoreComment: true };
+
+        const result = convert.json2xml(jsonToConvert, options);
+
         res.setHeader("Content-Type", "application/xml");
-        res.status(200).send(xmlFormat);
+        res.status(200).send(result);
     } else if (acceptHeader.includes("text/html")) {
         let htmlFormat =
             '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Hired Freelancers</title></head><body>';
@@ -129,7 +133,7 @@ app.delete("/api/hired/:id", (req, res) => {
 
         if (!hiredFreel.some((hire) => hire.id === data)) {
             console.log("DIDNT FIND");
-            return res.status(400).json(
+            return res.status(404).json(
                 JSON.stringify({
                     Error: `No hired freelancers exist with id: ${data}`,
                 })
