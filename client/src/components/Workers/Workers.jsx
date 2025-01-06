@@ -87,14 +87,14 @@ function Workers(props) {
                 <div className="workers">
                     {freelancers.map((freelancer) => (
                         <WorkerCard
-                            key={freelancer.id}
+                            key={freelancer._id}
                             name={freelancer.name}
                             surname={freelancer.surname}
                             spec={freelancer.spec}
                             header={freelancer.header}
                             rating={freelancer.rating}
                             piclink={freelancer.piclink}
-                            id={freelancer.id}
+                            id={freelancer._id}
                             onUpdate={handleUpdate}
                             onDelete={handleDelete}
                         />
