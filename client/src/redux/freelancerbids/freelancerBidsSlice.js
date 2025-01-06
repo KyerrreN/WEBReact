@@ -10,7 +10,7 @@ export const fetchFreelancerBids = createAsyncThunk(
         );
 
         if (response.data.success) {
-            return response.data.data.rows; // Adjust according to your API response
+            return response.data.data.bids;
         }
         throw new Error("Failed to fetch freelancer bids");
     }

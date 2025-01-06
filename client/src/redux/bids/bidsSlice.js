@@ -5,7 +5,7 @@ export const fetchBids = createAsyncThunk("bids/fetchBids", async () => {
     const response = await axios.get("http://localhost:3001/api/bids");
 
     if (response.data.success) {
-        return response.data.data.rows;
+        return response.data.data.bids;
     }
 });
 

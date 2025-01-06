@@ -75,8 +75,8 @@ export default function FreelancerBidComponent() {
                             key={`${bid.freelancerId}-${bid.bidId}`}
                             name={freelancer.name || "Unknown"}
                             surname={freelancer.surname || "Unknown"}
-                            bidId={bid.bidId}
-                            freelId={bid.freelancerId}
+                            bidId={bid.bidId._id}
+                            freelId={bid.freelancerId._id}
                             spec={freelancer.spec || "N/A"}
                             assigned={bid.assigned}
                             deadline={bid.deadline}

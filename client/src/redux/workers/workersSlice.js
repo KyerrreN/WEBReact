@@ -10,7 +10,7 @@ export const fetchFreelancers = createAsyncThunk(
         );
 
         if (response.data.success) {
-            return response.data.data.rows;
+            return response.data.data.freelancers;
         }
         throw new Error("Failed to fetch freelancers");
     }
