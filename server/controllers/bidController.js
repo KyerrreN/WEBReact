@@ -194,44 +194,27 @@ class BidController {
             success: false,
         };
 
-        const numberId = Number(id);
-        if (!Number.isInteger(numberId)) {
-            jsonRes.data = "Id can only be an integer number";
-
-            res.status(400).json(jsonRes);
-            return;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            jsonRes.data = "Id must be a valid ObjectId";
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.Bid.findAll({
-                where: {
-                    id: numberId,
-                },
-            });
+            const found = await Bid.findById(id).exec();
 
-            if (found.length === 0) {
+            if (!found) {
                 jsonRes.data =
-                    "Couldn't find a row with specified id. Id: " + numberId;
-
-                res.status(404).json(jsonRes);
-                return;
-            }
-
-            if (found.length > 1) {
-                jsonRes.data = "Several rows with id: " + numberId;
-
-                res.status(500).json(jsonRes);
-                return;
+                    "Couldn't find a bid with specified id. Id: " + id;
+                return res.status(404).json(jsonRes);
             }
 
             jsonRes.success = true;
             jsonRes.data = found;
 
-            res.status(200).json(jsonRes);
+            return res.status(200).json(jsonRes);
         } catch (e) {
             jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            return res.status(500).json(jsonRes);
         }
     }
 
