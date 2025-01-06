@@ -182,7 +182,7 @@ class FreelanceBidController {
         const filter = {};
 
         if (assigned !== undefined) {
-            filter.assigned = assigned === "true"; // Convert to boolean
+            filter.assigned = assigned === "true";
         }
 
         if (deadline) {
@@ -227,94 +227,26 @@ class FreelanceBidController {
             success: false,
         };
 
-        const numberId = Number(id);
-        if (!Number.isInteger(numberId)) {
-            jsonRes.data = "Id can only be an integer number";
-
-            res.status(400).json(jsonRes);
-            return;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            jsonRes.data = "Invalid freelancerId format";
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.FreelancerBid.findAll({
-                where: {
-                    freelancerId: numberId,
-                },
-            });
+            const found = await FreelancerBid.find({ freelancerId: id });
 
             if (found.length === 0) {
                 jsonRes.data =
-                    "Couldn't find a row with specified id. Id: " + numberId;
-
-                res.status(404).json(jsonRes);
-                return;
+                    "Couldn't find a row with specified freelancerId: " + id;
+                return res.status(404).json(jsonRes);
             }
 
             jsonRes.success = true;
             jsonRes.data = found;
-
-            res.status(200).json(jsonRes);
+            return res.status(200).json(jsonRes);
         } catch (e) {
             jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
-        }
-    }
-
-    // 6) обработка случая отсутствия записи; ?????????????????????????????????????????????????
-    async getIsExist(req, res) {
-        const { freelid, bidid } = req.params;
-        const jsonRes = {
-            success: false,
-        };
-
-        const numberFreelId = Number(freelid);
-        if (!Number.isInteger(numberFreelId)) {
-            jsonRes.data = "Id can only be an integer number";
-
-            res.status(400).json(jsonRes);
-            return;
-        }
-
-        const numberBidId = Number(bidid);
-        if (!Number.isInteger(numberBidId)) {
-            jsonRes.data = "Id can only be an integer number";
-
-            res.status(400).json(jsonRes);
-            return;
-        }
-
-        try {
-            const found = await db.FreelancerBid.findAll({
-                where: {
-                    freelancerId: numberFreelId,
-                    bidId: numberBidId,
-                },
-            });
-
-            if (found.length === 0) {
-                jsonRes.data = false;
-                jsonRes.success = true;
-
-                res.status(200).json(jsonRes);
-                return;
-            }
-
-            if (found.length > 1) {
-                jsonRes.data = "Several rows with id: " + numberId;
-
-                res.status(500).json(jsonRes);
-                return;
-            }
-
-            jsonRes.success = true;
-            jsonRes.data = true;
-
-            res.status(200).json(jsonRes);
-        } catch (e) {
-            jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            return res.status(500).json(jsonRes);
         }
     }
 
