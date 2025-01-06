@@ -1,5 +1,7 @@
 const db = require("../db/models");
 const { Op, where } = require("sequelize");
+const mongoose = require("mongoose");
+const FreelancerBid = require("../mongo/freelancerBid");
 
 class FreelanceBidController {
     // 1) создание новой записи;
@@ -46,7 +48,6 @@ class FreelanceBidController {
     // 2) получение списка записей с поддержкой пагинации;
     async getAllPaging(req, res) {
         const { page = 1, limit = 10 } = req.query;
-        const { freelid } = req.params;
 
         const offset = (page - 1) * limit;
 
@@ -54,55 +55,36 @@ class FreelanceBidController {
             !Number.isInteger(Number(limit)) ||
             !Number.isInteger(Number(offset))
         ) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 data: "page and limit values must be integers",
             });
-
-            return;
         }
 
         try {
-            const id = Number(freelid);
-            // const freel = await db.Freelancer.findByPk(id, {
-            //     attributes: ["id"],
-            // });
+            const found = await FreelancerBid.find()
+                .populate("freelancerId")
+                .populate("bidId")
+                .skip(offset)
+                .limit(Number(limit))
+                .exec();
 
-            // if (freel === null) {
-            //     res.status(404).json({
-            //         success: false,
-            //         data: "Couldn't find freelancer with id: " + id,
-            //     });
+            const transformedBids = found.map((bid) => ({
+                ...bid.toObject(),
+                Freelancer: bid.freelancerId,
+                Bid: bid.bidId,
+            }));
 
-            //     return;
-            // }
-
-            console.warn(`Page = ${page}. Limit = ${limit}`);
-            const found = await db.FreelancerBid.findAndCountAll({
-                limit,
-                offset,
-                include: db.Freelancer,
-                // where: {
-                //     freelancerId: id,
-                // },
-            });
-
-            // if (found.rows.length === 0) {
-            //     res.status(404).json({
-            //         success: false,
-            //         data:
-            //             "No linked bids exist for freelancer with id: " +
-            //             id +
-            //             ". Or, couldn't find more rows with paging. Check count.",
-            //         count: found.count,
-            //     });
-
-            //     return;
-            // }
+            const totalCount = await FreelancerBid.countDocuments().exec();
 
             res.status(200).json({
                 success: true,
-                data: found,
+                data: {
+                    totalCount,
+                    totalPages: Math.ceil(totalCount / limit),
+                    currentPage: Number(page),
+                    bids: transformedBids,
+                },
             });
         } catch (e) {
             res.status(400).json({
@@ -111,7 +93,6 @@ class FreelanceBidController {
             });
         }
     }
-
     // 3) получение списка записей с поддержкой сортировки;
     // в моем случае по дате
     async getAllSorted(req, res) {
