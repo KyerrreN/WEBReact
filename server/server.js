@@ -5,6 +5,7 @@ const express = require("express");
 const db = require("./db/models/index");
 const cors = require("cors");
 const router = require("./routes/index");
+const mongoose = require("mongoose");
 
 const app = express();
 
@@ -16,13 +17,15 @@ app.use(express.static(path.join(__dirname, "public")));
 // ROUTES
 app.use("/api", router);
 
-db.sequelize
-    .sync()
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Started server on port ${PORT}`);
-        });
+// Connect to MongoDB
+mongoose
+    .connect("mongodb://localhost:27017/FreelancerMockProject", {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
     })
-    .catch((err) => {
-        console.error("Couldn't connect to the database");
-    });
+    .then(() => console.log("MongoDB connected"))
+    .catch((err) => console.error("MongoDB connection error:", err));
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});

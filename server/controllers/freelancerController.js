@@ -1,19 +1,39 @@
 const db = require("../db/models");
 const { Op } = require("sequelize");
+const Freelancer = require("../mongo/freelancer");
 
 class FreelancerController {
     // 1) создание новой записи;
     async create(req, res) {
-        const { name, surname, spec, rating, header, hardskills, softskills } =
-            req.body;
+        const { name, surname, spec, rating, header, piclink } = req.body;
+
+        if (!name || !surname || !spec || !rating || !header) {
+            return res.status(400).json({
+                success: false,
+                data: "Specify all fields: name, surname, spec, rating, header",
+            });
+        }
 
         try {
-            const newFreelancer = await db.Freelancer.create(req.body);
+            const newFreelancer = new Freelancer({
+                name,
+                surname,
+                spec,
+                rating,
+                header,
+                piclink: "1.jpg",
+            });
+
+            // Save the new freelancer to the database
+            await newFreelancer.save();
+
+            // Respond with success
             res.status(201).json({
                 success: true,
                 data: newFreelancer,
             });
         } catch (e) {
+            // Handle validation errors or other issues
             res.status(400).json({
                 success: false,
                 data: e.message,
@@ -24,50 +44,48 @@ class FreelancerController {
     async getAllPaging(req, res) {
         const { page = 1, limit = 10 } = req.query;
 
-        const offset = (page - 1) * limit;
+        const pageNumber = parseInt(page);
+        const limitNumber = parseInt(limit);
+        const offset = (pageNumber - 1) * limitNumber;
 
         if (
-            !Number.isInteger(Number(limit)) ||
-            !Number.isInteger(Number(offset))
+            !Number.isInteger(pageNumber) ||
+            !Number.isInteger(limitNumber) ||
+            pageNumber < 1 ||
+            limitNumber < 1
         ) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
-                data: "page and limit values must be integers",
+                data: "Page and limit values must be positive integers",
             });
-
-            return;
         }
 
         try {
-            const freelancers = await db.Freelancer.findAndCountAll({
-                limit,
-                offset,
-            });
+            const freelancers = await Freelancer.find()
+                .skip(offset)
+                .limit(limitNumber);
 
-            if (freelancers.rows.length === 0) {
-                if (freelancers.count > 0) {
-                    res.status(404).json({
-                        success: false,
-                        data: "No more rows using your paging parameters are available",
-                    });
+            const totalFreelancers = await Freelancer.countDocuments();
 
-                    return;
-                }
-
-                res.status(404).json({
+            if (freelancers.length === 0) {
+                return res.status(404).json({
                     success: false,
-                    data: "No values in the table",
+                    data: "No freelancers found",
                 });
-
-                return;
             }
 
             res.status(200).json({
                 success: true,
-                data: freelancers,
+                data: {
+                    freelancers,
+                    total: totalFreelancers,
+                    page: pageNumber,
+                    limit: limitNumber,
+                    totalPages: Math.ceil(totalFreelancers / limitNumber),
+                },
             });
         } catch (e) {
-            res.status(400).json({
+            res.status(500).json({
                 success: false,
                 data: e.message,
             });
