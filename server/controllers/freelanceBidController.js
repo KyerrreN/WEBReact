@@ -135,45 +135,39 @@ class FreelanceBidController {
     // 3) получение списка записей с поддержкой сортировки;
     // в моем случае по дате
     async getAllSorted(req, res) {
-        console.warn("FDSAFA");
         const { sort } = req.query;
         const jsonRes = {
             success: false,
         };
 
         let normalizedSort;
-        try {
-            normalizedSort = sort.toUpperCase();
-        } catch (e) {
-            res.status(400).json({
+        if (!sort) {
+            return res.status(400).json({
                 success: false,
                 data: "You haven't specified sort",
             });
-
-            return;
         }
+
+        normalizedSort = sort.toUpperCase();
 
         if (normalizedSort !== "ASC" && normalizedSort !== "DESC") {
             jsonRes.data =
                 "Order has to be either ASC or DESC (case insensitive)";
-
-            res.status(400).json(jsonRes);
-            return;
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.FreelancerBid.findAll({
-                order: [["deadline", normalizedSort]],
+            const found = await FreelancerBid.find().sort({
+                deadline: normalizedSort === "ASC" ? 1 : -1,
             });
 
             jsonRes.success = true;
             jsonRes.data = found;
 
-            res.status(200).json(jsonRes);
+            return res.status(200).json(jsonRes);
         } catch (e) {
             jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            return res.status(500).json(jsonRes);
         }
     }
 
