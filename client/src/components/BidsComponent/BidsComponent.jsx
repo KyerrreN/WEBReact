@@ -79,12 +79,12 @@ function BidsComponent() {
                 bids.map((bid) => {
                     return (
                         <Bid
-                            key={bid.id}
+                            key={bid._id}
                             name={bid.name}
                             desc={bid.desc}
                             needed={bid.spec}
                             payment={bid.payment}
-                            id={bid.id}
+                            id={bid._id}
                             onDelete={handleDeleteBid}
                             onUpdate={handleUpdateBid}
                         />

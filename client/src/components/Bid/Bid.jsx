@@ -31,10 +31,6 @@ export default function Bid({
                         <BidInfo header={t("bid-desc")} content={desc} />
                         <BidInfo header={t("bid-needed")} content={needed} />
                         <BidInfo header={t("bid-payment")} content={payment} />
-                        <BidInfo
-                            header={t("bid-deadline")}
-                            content={deadline}
-                        />
                     </div>
                 </div>
 
