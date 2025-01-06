@@ -87,30 +87,26 @@ class BidController {
             success: false,
         };
 
-        const normalizedSort = sort.toUpperCase();
-        console.log(normalizedSort);
+        const normalizedSort = sort ? sort.toUpperCase() : "ASC";
 
         if (normalizedSort !== "ASC" && normalizedSort !== "DESC") {
             jsonRes.data =
                 "Order has to be either ASC or DESC (case insensitive)";
-
-            res.status(400).json(jsonRes);
-            return;
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.Bid.findAll({
-                order: [["payment", normalizedSort]],
-            });
+            const found = await Bid.find()
+                .sort({ payment: normalizedSort === "ASC" ? 1 : -1 })
+                .exec();
 
             jsonRes.success = true;
             jsonRes.data = found;
 
-            res.status(200).json(jsonRes);
+            return res.status(200).json(jsonRes);
         } catch (e) {
             jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            return res.status(500).json(jsonRes);
         }
     }
 
