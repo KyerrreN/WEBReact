@@ -300,48 +300,33 @@ class FreelanceBidController {
             data: "",
         };
 
-        const numberFreelid = Number(freelid);
-        if (!Number.isInteger(numberFreelid)) {
-            jsonRes.data = "Id can only be integer";
-
-            res.status(400).json(jsonRes);
-            return;
-        }
-
-        const numberBidid = Number(bidid);
-        if (!Number.isInteger(numberBidid)) {
-            jsonRes.data = "Id can only be integer";
-
-            res.status(400).json(jsonRes);
-            return;
+        if (
+            !mongoose.Types.ObjectId.isValid(freelid) ||
+            !mongoose.Types.ObjectId.isValid(bidid)
+        ) {
+            jsonRes.data = "Invalid freelancerId or bidId format";
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.FreelancerBid.findOne({
-                where: {
-                    freelancerId: numberFreelid,
-                    bidId: numberBidid,
-                },
+            const found = await FreelancerBid.findOneAndDelete({
+                freelancerId: freelid,
+                bidId: bidid,
             });
 
-            if (found === null) {
+            if (!found) {
                 jsonRes.data =
                     "Couldn't find row with freelancerId: " +
-                    numberFreelid +
+                    freelid +
                     ", and bidId: " +
-                    numberBidid;
-
-                res.status(404).json(jsonRes);
-                return;
+                    bidid;
+                return res.status(404).json(jsonRes);
             }
 
-            await found.destroy();
-
-            res.status(204).json();
+            return res.status(204).json();
         } catch (e) {
             jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            return res.status(500).json(jsonRes);
         }
     }
 }
