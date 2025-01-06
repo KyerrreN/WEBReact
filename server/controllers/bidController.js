@@ -1,5 +1,7 @@
 const db = require("../db/models");
 const { Op } = require("sequelize");
+const mongoose = require("mongoose");
+const Bid = require("../mongo/bid");
 
 class BidController {
     // 1) создание новой записи;
@@ -7,18 +9,18 @@ class BidController {
         const { name, desc, spec, payment } = req.body;
 
         try {
-            const newBid = await db.Bid.create({
+            const newBid = await Bid.create({
                 name,
                 desc,
                 spec,
                 payment,
             });
-            res.status(201).json({
+            return res.status(201).json({
                 success: true,
                 data: newBid,
             });
         } catch (e) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 data: e.message,
             });
@@ -26,7 +28,7 @@ class BidController {
     }
     // 2) получение списка записей с поддержкой пагинации;
     async getAllPaging(req, res) {
-        const { page = 1, limit = 100 } = req.query;
+        const { page = 1, limit = 10 } = req.query;
 
         const offset = (page - 1) * limit;
 
@@ -34,44 +36,43 @@ class BidController {
             !Number.isInteger(Number(limit)) ||
             !Number.isInteger(Number(offset))
         ) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 data: "page and limit values must be integers",
             });
-
-            return;
         }
 
         try {
-            const bids = await db.Bid.findAndCountAll({
-                limit,
-                offset,
-            });
+            const bids = await Bid.find()
+                .skip(offset)
+                .limit(Number(limit))
+                .exec();
 
-            if (bids.rows.length === 0) {
-                if (bids.count > 0) {
-                    res.status(404).json({
+            const totalCount = await Bid.countDocuments();
+
+            if (bids.length === 0) {
+                if (totalCount > 0) {
+                    return res.status(404).json({
                         success: false,
                         data: "No more rows using your paging parameters are available",
                     });
-
-                    return;
                 }
 
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     data: "No values in the table Bids",
                 });
-
-                return;
             }
 
-            res.status(200).json({
+            return res.status(200).json({
                 success: true,
-                data: bids,
+                data: {
+                    totalCount,
+                    bids,
+                },
             });
         } catch (e) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 data: e.message,
             });
