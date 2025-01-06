@@ -2,38 +2,77 @@ const db = require("../db/models");
 const { Op, where } = require("sequelize");
 const mongoose = require("mongoose");
 const FreelancerBid = require("../mongo/freelancerBid");
+const Freelancer = require("../mongo/freelancer");
+const Bid = require("../mongo/bid");
 
 class FreelanceBidController {
     // 1) создание новой записи;
     async create(req, res) {
         const { freelancerId, bidId, deadline, assigned } = req.body;
 
-        console.log(req.body);
-        if (!freelancerId || !Number.isInteger(Number(freelancerId))) {
-            res.status(400).json({
+        if (!freelancerId || !mongoose.Types.ObjectId.isValid(freelancerId)) {
+            return res.status(400).json({
                 success: false,
-                data: "freelancerId is required and must be an integer",
+                data: "freelancerId is required and must be a valid ObjectId",
             });
-
-            return;
         }
 
-        if (!bidId || !Number.isInteger(Number(bidId))) {
-            res.status(400).json({
+        if (!bidId || !mongoose.Types.ObjectId.isValid(bidId)) {
+            return res.status(400).json({
                 success: false,
-                data: "bidId is required and must be an integer",
+                data: "bidId is required and must be a valid ObjectId",
             });
+        }
 
-            return;
+        let parsedDeadline;
+        if (deadline) {
+            parsedDeadline = new Date(deadline);
+            if (isNaN(parsedDeadline.getTime())) {
+                return res.status(400).json({
+                    success: false,
+                    data: "deadline must be a valid date",
+                });
+            }
         }
 
         try {
-            const newFreelancerBid = await db.FreelancerBid.create({
+            const freelancerExists = await Freelancer.exists({
+                _id: freelancerId,
+            });
+            const bidExists = await Bid.exists({ _id: bidId });
+
+            if (!freelancerExists) {
+                return res.status(404).json({
+                    success: false,
+                    data: "Freelancer not found",
+                });
+            }
+
+            if (!bidExists) {
+                return res.status(404).json({
+                    success: false,
+                    data: "Bid not found",
+                });
+            }
+
+            const existingBid = await FreelancerBid.findOne({
                 freelancerId,
                 bidId,
-                deadline,
-                assigned,
             });
+            if (existingBid) {
+                return res.status(409).json({
+                    success: false,
+                    data: "A FreelancerBid with this freelancerId and bidId already exists",
+                });
+            }
+
+            const newFreelancerBid = await FreelancerBid.create({
+                freelancerId,
+                bidId,
+                deadline: parsedDeadline,
+                assigned: Date.now(),
+            });
+
             res.status(201).json({
                 success: true,
                 data: newFreelancerBid,
