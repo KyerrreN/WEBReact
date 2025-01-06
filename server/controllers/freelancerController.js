@@ -100,29 +100,25 @@ class FreelancerController {
             success: false,
         };
 
-        const normalizedSort = sort.toUpperCase() ?? "ASC";
-        console.log(normalizedSort);
+        const normalizedSort = (sort && sort.toUpperCase()) || "ASC";
 
         if (normalizedSort !== "ASC" && normalizedSort !== "DESC") {
             jsonRes.data =
                 "Order has to be either ASC or DESC (case insensitive)";
-
-            res.status(400).json(jsonRes);
-            return;
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.Freelancer.findAll({
-                order: [["rating", normalizedSort]],
+            const freelancers = await Freelancer.find().sort({
+                rating: normalizedSort === "ASC" ? 1 : -1,
             });
 
             jsonRes.success = true;
-            jsonRes.data = found;
+            jsonRes.data = freelancers;
 
             res.status(200).json(jsonRes);
         } catch (e) {
             jsonRes.data = e.message;
-
             res.status(500).json(jsonRes);
         }
     }
