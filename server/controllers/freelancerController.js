@@ -1,6 +1,7 @@
 const db = require("../db/models");
 const { Op } = require("sequelize");
 const Freelancer = require("../mongo/freelancer");
+const FreelancerBid = require("../mongo/freelancerBid");
 const mongoose = require("mongoose");
 
 class FreelancerController {
@@ -325,7 +326,10 @@ class FreelancerController {
                 return res.status(404).json(jsonRes);
             }
 
+            await FreelancerBid.deleteMany({ freelancerId: reqId });
+
             await Freelancer.deleteOne({ _id: reqId });
+
             return res.status(204).json();
         } catch (e) {
             jsonRes.data = e.message;

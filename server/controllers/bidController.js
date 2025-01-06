@@ -2,6 +2,7 @@ const db = require("../db/models");
 const { Op } = require("sequelize");
 const mongoose = require("mongoose");
 const Bid = require("../mongo/bid");
+const FreelancerBid = require("../mongo/freelancerBid");
 
 class BidController {
     // 1) создание новой записи;
@@ -306,10 +307,13 @@ class BidController {
                 return res.status(404).json(jsonRes);
             }
 
-            await found.deleteOne();
+            await FreelancerBid.deleteMany({ bidId: reqId });
+
+            await Bid.deleteOne({ _id: reqId });
 
             return res.status(204).json();
         } catch (e) {
+            console.log(e.message);
             jsonRes.data = e.message;
             return res.status(500).json(jsonRes);
         }
