@@ -134,47 +134,41 @@ class FreelancerController {
         const filter = {};
 
         if (name) {
-            filter.name = { [Op.like]: `%${name}%` };
+            filter.name = { $regex: name, $options: "i" };
         }
 
         if (surname) {
-            filter.surname = { [Op.like]: `%${surname}%` };
+            filter.surname = { $regex: surname, $options: "i" };
         }
 
         if (spec) {
-            filter.spec = { [Op.like]: `%${spec}%` };
+            filter.spec = { $regex: spec, $options: "i" };
         }
 
         if (rating) {
             filter.rating = rating;
         }
 
-        if (JSON.stringify(filter) === "{}") {
+        if (Object.keys(filter).length === 0) {
             jsonRes.data =
                 "Bad request. Accepted properties: name, surname, spec, rating";
-            res.status(400).json(jsonRes);
-            return;
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.Freelancer.findAll({
-                where: filter,
-            });
+            const freelancers = await Freelancer.find(filter);
 
-            if (found.length > 0) {
+            if (freelancers.length > 0) {
                 jsonRes.success = true;
-                jsonRes.data = found;
-
-                res.status(200).json(jsonRes);
+                jsonRes.data = freelancers;
+                return res.status(200).json(jsonRes);
             } else {
                 jsonRes.data = "Couldn't find data with your request";
-
-                res.status(404).json(jsonRes);
+                return res.status(404).json(jsonRes);
             }
         } catch (e) {
             jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            return res.status(500).json(jsonRes);
         }
     }
 
