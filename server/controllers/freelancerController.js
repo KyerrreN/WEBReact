@@ -1,6 +1,7 @@
 const db = require("../db/models");
 const { Op } = require("sequelize");
 const Freelancer = require("../mongo/freelancer");
+const mongoose = require("mongoose");
 
 class FreelancerController {
     // 1) создание новой записи;
@@ -182,37 +183,29 @@ class FreelancerController {
 
         if (!query) {
             jsonRes.data = 'Query "query" must be specified';
-
-            res.status(400).json(jsonRes);
-            return;
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.Freelancer.findAll({
-                where: {
-                    [Op.or]: [
-                        { name: { [Op.like]: `%${query}%` } },
-                        { surname: { [Op.like]: `%${query}%` } },
-                        { spec: { [Op.like]: `%${query}%` } },
-                    ],
-                },
+            const found = await Freelancer.find({
+                $or: [
+                    { name: { $regex: query, $options: "i" } },
+                    { surname: { $regex: query, $options: "i" } },
+                    { spec: { $regex: query, $options: "i" } },
+                ],
             });
 
             if (found.length === 0) {
                 jsonRes.data = "No match for your search query.";
-
-                res.status(404).json(jsonRes);
-                return;
+                return res.status(404).json(jsonRes);
             }
 
             jsonRes.data = found;
             jsonRes.success = true;
-
-            res.status(200).json(jsonRes);
+            return res.status(200).json(jsonRes);
         } catch (e) {
             jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            return res.status(500).json(jsonRes);
         }
     }
 
@@ -223,44 +216,26 @@ class FreelancerController {
             success: false,
         };
 
-        const numberId = Number(id);
-        if (!Number.isInteger(numberId)) {
-            jsonRes.data = "Id can only be an integer number";
-
-            res.status(400).json(jsonRes);
-            return;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            jsonRes.data = "Id must be a valid ObjectId";
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.Freelancer.findAll({
-                where: {
-                    id: numberId,
-                },
-            });
+            const found = await Freelancer.findById(id);
 
-            if (found.length === 0) {
+            if (!found) {
                 jsonRes.data =
-                    "Couldn't find a row with specified id. Id: " + numberId;
-
-                res.status(404).json(jsonRes);
-                return;
-            }
-
-            if (found.length > 1) {
-                jsonRes.data = "Several rows with id: " + numberId;
-
-                res.status(500).json(jsonRes);
-                return;
+                    "Couldn't find a freelancer with specified id. Id: " + id;
+                return res.status(404).json(jsonRes);
             }
 
             jsonRes.success = true;
             jsonRes.data = found;
-
-            res.status(200).json(jsonRes);
+            return res.status(200).json(jsonRes);
         } catch (e) {
             jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            return res.status(500).json(jsonRes);
         }
     }
 
