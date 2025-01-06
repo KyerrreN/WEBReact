@@ -7,7 +7,6 @@ router.get("/", freelanceBidController.getAllPaging);
 router.get("/get/filter", freelanceBidController.getAllFiltered);
 router.get("/get/sort", freelanceBidController.getAllSorted);
 router.get("/get/:id", freelanceBidController.getById);
-router.get("/isExist/:freelid/:bidid", freelanceBidController.getIsExist);
 
 // POST
 router.post("/", freelanceBidController.create);
