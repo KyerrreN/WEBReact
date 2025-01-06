@@ -181,40 +181,42 @@ class FreelanceBidController {
 
         const filter = {};
 
-        if (assigned) {
-            filter.assigned = assigned;
+        if (assigned !== undefined) {
+            filter.assigned = assigned === "true"; // Convert to boolean
         }
 
         if (deadline) {
-            filter.deadline = deadline;
+            const parsedDeadline = new Date(deadline);
+            if (!isNaN(parsedDeadline.getTime())) {
+                filter.deadline = parsedDeadline;
+            } else {
+                return res.status(400).json({
+                    success: false,
+                    data: "Invalid deadline format. Please provide a valid date.",
+                });
+            }
         }
 
-        if (JSON.stringify(filter) === "{}") {
+        if (Object.keys(filter).length === 0) {
             jsonRes.data =
                 "Bad request. Accepted properties: assigned, deadline";
-            res.status(400).json(jsonRes);
-            return;
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.FreelancerBid.findAll({
-                where: filter,
-            });
+            const found = await FreelancerBid.find(filter);
 
             if (found.length > 0) {
                 jsonRes.success = true;
                 jsonRes.data = found;
-
-                res.status(200).json(jsonRes);
+                return res.status(200).json(jsonRes);
             } else {
                 jsonRes.data = "Couldn't find data with your request";
-
-                res.status(404).json(jsonRes);
+                return res.status(404).json(jsonRes);
             }
         } catch (e) {
             jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            return res.status(500).json(jsonRes);
         }
     }
 
