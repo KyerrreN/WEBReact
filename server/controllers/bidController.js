@@ -121,11 +121,11 @@ class BidController {
         const filter = {};
 
         if (name) {
-            filter.name = { $regex: name, $options: "i" }; // Case-insensitive search
+            filter.name = { $regex: name, $options: "i" };
         }
 
         if (spec) {
-            filter.spec = { $regex: spec, $options: "i" }; // Case-insensitive search
+            filter.spec = { $regex: spec, $options: "i" };
         }
 
         if (Object.keys(filter).length === 0) {
@@ -160,37 +160,30 @@ class BidController {
 
         if (!query) {
             jsonRes.data = 'Query "query" must be specified';
-
-            res.status(400).json(jsonRes);
-            return;
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.Bid.findAll({
-                where: {
-                    [Op.or]: [
-                        { name: { [Op.like]: `%${query}%` } },
-                        { desc: { [Op.like]: `%${query}%` } },
-                        { spec: { [Op.like]: `%${query}%` } },
-                    ],
-                },
-            });
+            const found = await Bid.find({
+                $or: [
+                    { name: { $regex: query, $options: "i" } },
+                    { desc: { $regex: query, $options: "i" } },
+                    { spec: { $regex: query, $options: "i" } },
+                ],
+            }).exec();
 
             if (found.length === 0) {
                 jsonRes.data = "No match for your search query.";
-
-                res.status(404).json(jsonRes);
-                return;
+                return res.status(404).json(jsonRes);
             }
 
             jsonRes.data = found;
             jsonRes.success = true;
 
-            res.status(200).json(jsonRes);
+            return res.status(200).json(jsonRes);
         } catch (e) {
             jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            return res.status(500).json(jsonRes);
         }
     }
 
