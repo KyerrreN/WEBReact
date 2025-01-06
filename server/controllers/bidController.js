@@ -121,38 +121,32 @@ class BidController {
         const filter = {};
 
         if (name) {
-            filter.name = { [Op.like]: `%${name}%` };
+            filter.name = { $regex: name, $options: "i" }; // Case-insensitive search
         }
 
         if (spec) {
-            filter.spec = { [Op.like]: `%${spec}%` };
+            filter.spec = { $regex: spec, $options: "i" }; // Case-insensitive search
         }
 
-        if (JSON.stringify(filter) === "{}") {
+        if (Object.keys(filter).length === 0) {
             jsonRes.data = "Bad request. Accepted properties: name, spec";
-            res.status(400).json(jsonRes);
-            return;
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.Bid.findAll({
-                where: filter,
-            });
+            const found = await Bid.find(filter).exec();
 
             if (found.length > 0) {
                 jsonRes.success = true;
                 jsonRes.data = found;
-
-                res.status(200).json(jsonRes);
+                return res.status(200).json(jsonRes);
             } else {
                 jsonRes.data = "Couldn't find data with your request";
-
-                res.status(404).json(jsonRes);
+                return res.status(404).json(jsonRes);
             }
         } catch (e) {
             jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            return res.status(500).json(jsonRes);
         }
     }
 
