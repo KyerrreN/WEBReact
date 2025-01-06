@@ -312,34 +312,24 @@ class FreelancerController {
             data: "",
         };
 
-        const id = Number(reqId);
-
-        if (!Number.isInteger(id)) {
-            jsonRes.data = "Id can only be integer";
-
-            res.status(400).json(jsonRes);
-            return;
+        if (!mongoose.Types.ObjectId.isValid(reqId)) {
+            jsonRes.data = "Id must be a valid ObjectId";
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.Freelancer.findByPk(id, {
-                attributes: ["id"],
-            });
+            const found = await Freelancer.findById(reqId);
 
-            if (found === null) {
-                jsonRes.data = "Couldn't find row with id: " + id;
-
-                res.status(404).json(jsonRes);
-                return;
+            if (!found) {
+                jsonRes.data = "Couldn't find freelancer with id: " + reqId;
+                return res.status(404).json(jsonRes);
             }
 
-            await found.destroy();
-
-            res.status(204).json();
+            await Freelancer.deleteOne({ _id: reqId });
+            return res.status(204).json();
         } catch (e) {
             jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            return res.status(500).json(jsonRes);
         }
     }
 }
