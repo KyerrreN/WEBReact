@@ -258,38 +258,30 @@ class BidController {
             data: "",
         };
 
-        const id = Number(reqId);
-
-        if (!Number.isInteger(id)) {
-            jsonRes.data = "Id can only be integer";
-
-            res.status(400).json(jsonRes);
-            return;
+        if (!mongoose.Types.ObjectId.isValid(reqId)) {
+            jsonRes.data = "Id must be a valid ObjectId";
+            return res.status(400).json(jsonRes);
         }
 
         try {
-            const found = await db.Bid.findByPk(id, {
-                attributes: ["id"],
-            });
+            const found = await Bid.findById(reqId);
 
-            if (found === null) {
-                jsonRes.data = "Couldn't find a row with id: " + id;
-
-                res.status(400).json(jsonRes);
+            if (!found) {
+                jsonRes.data = "Couldn't find a bid with id: " + reqId;
+                return res.status(404).json(jsonRes);
             }
 
-            await found.update({
-                name: name,
-                desc: desc,
-                spec: spec,
-                payment: payment,
-            });
+            found.name = name;
+            found.desc = desc;
+            found.spec = spec;
+            found.payment = payment;
 
-            res.status(204).json();
+            await found.save();
+
+            return res.status(204).json();
         } catch (e) {
             jsonRes.data = e.message;
-
-            res.status(500).json(jsonRes);
+            return res.status(500).json(jsonRes);
         }
     }
 
